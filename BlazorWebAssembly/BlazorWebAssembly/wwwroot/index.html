@@ -20,6 +20,18 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        function buildObjctString(name, age) {
+            const obj = { name, age }
+            return JSON.stringify(obj)
+        }
+
+        async function jsCallCSharp() {
+            // 如果 C# 函数有参数，不传递会报错
+            const result = await DotNet.invokeMethodAsync("BlazorWebAssembly", "GetTime", "这个是 js 传入的参数")
+            alert(result)
+        }
+    </script>
 </body>
 
 </html>

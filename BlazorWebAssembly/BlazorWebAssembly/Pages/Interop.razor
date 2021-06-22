@@ -1,0 +1,32 @@
+﻿@page "/interop"
+
+@inject IJSRuntime JS
+
+<h3>Interop</h3>
+<div>
+    <button class="btn btn-primary" @onclick="CSharpCallJS">CSharpCallJS</button>
+    <button class="btn btn-primary" onclick="jsCallCSharp()">JsCallCSharp</button>
+</div>
+
+
+<div>
+    @data
+</div>
+
+
+@code {
+    private string data;
+    private async Task CSharpCallJS()
+    {
+        var methodName = "buildObjctString";
+        var name = "张三";
+        var age = 18;
+        data = await JS.InvokeAsync<string>(methodName, name, age);
+    }
+
+    [JSInvokable]
+    public static Task<string> GetTime(string param)
+    {
+        return Task.FromResult($"{param}，后面的来自C# {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+    }
+}
